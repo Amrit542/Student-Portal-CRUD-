@@ -1,0 +1,52 @@
+.out_table {
+    width: 85%;
+    margin: 1rem auto;
+}
+
+.mat-column-id {
+
+    width: 32px;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+
+}
+
+.mat-column-email {
+    font-style: italic;
+}
+
+
+.mat-mdc-header-row {
+    background: #21212199;
+    color: #fff;
+}
+
+
+
+.mat-mdc-row {
+
+
+    &:nth-of-type(odd) {
+
+        background: #eceaea;
+    }
+
+
+
+}
+
+.mat-mdc-row .mat-mdc-cell {
+
+    border: 1px solid transparent
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    cursor: pointer;
+    border-top: 1.5px solid black !important;
+    border-bottom: 1.5px solid black;
+
+
+
+
+}

@@ -1,0 +1,78 @@
+// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
+.a {
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid red;
+    height: 70vh
+}
+
+.title {
+    font-size: 18px;
+
+    position: relative;
+
+
+    letter-spacing: 1px;
+    // font-style: italic;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-bottom: 10px;
+
+
+    h1 {
+        color: #3f51b5;
+    }
+
+
+}
+
+.bb {
+    border: 2px solid red;
+}
+
+
+.textresize {
+    resize: none;
+}
+
+.radioborder {
+    // border: 1px solid #0d6efd;
+    border: 1px solid #313233;
+}
+
+.radioborder:checked {
+    border: none;
+
+}
+
+
+.form-outline input:not([disabled]),
+.form-outline select:not([disabled]),
+.form-outline textarea:not([disabled]) {
+    border-color: #3f51b5;
+    box-shadow: 0 0 1.5px #3f51b5;
+
+    .editheading {
+        font-size: 19px;
+        color: #3f51b5;
+        text-decoration: none;
+    }
+
+    .required::after {
+
+        content: " *";
+        color: red;
+
+    }
+
+    .form-check-input[disabled]~.form-check-label {
+        cursor: default;
+        opacity: 1.5;
+
+    }
+}

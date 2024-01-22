@@ -1,0 +1,196 @@
+<div class="container mt-4 ">
+    <h3 class="page_heading h3 ">Create Student</h3>
+    <div [hidden]="isSubmitted" class=" border border-2 rounded p-4 ">
+        
+        <!-- <p>{{student | json}}</p> -->
+        <form class="form-group  " #studentform="ngForm" (ngSubmit)="onSubmit(studentform)">
+        
+            <div class="row">
+                <div class="col">
+                    <div class="form-outline mb-2">
+                        <label class="form-label fw-medium required" for="First">First Name</label>
+                        <input class="form-control" type="text" id="First" name="firstName"
+                        [(ngModel)]="student.firstName" required #f_Name="ngModel">
+                    </div>
+                    <div *ngIf="(f_Name.touched || studentform.submitted) && f_Name.hasError('required')"
+                    class="alert alert-danger" role="alert">
+                        First Name is required
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline mb-2">
+                        <label class="form-label fw-medium  required"  for="Last">Last Name</label>
+                        <input class="form-control" type="text" id="Last" name="lastName"
+                        [(ngModel)]="student.lastName" required #l_Name="ngModel">
+                    </div>
+                    <div *ngIf="(l_Name.touched || studentform.submitted) && l_Name.hasError('required')"
+                    class="alert alert-danger" role="alert">
+                        Last Name is required
+                    </div>
+                </div>
+        
+            </div>
+        
+            <div class="row">
+                <div class="col">
+                    <div class="form-outline mb-2">
+                        <label class="form-label fw-medium  required" for="Email">Email Address</label>
+                        <input class="form-control" type="email" id="Email" name="email"
+                        [(ngModel)]="student.email" 
+                        #email="ngModel"  required 
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" 
+                        (blur)="onEmailInputBlur(email)"
+                        >
+                    </div>
+                    <div *ngIf="(email.touched || studentform.submitted) && email.hasError('required')"
+                    class="alert alert-danger" role="alert">
+                        Email is required
+                    </div>
+                    <div class="alert alert-danger" role="alert" *ngIf="emailPatternError">
+                        Please enter a valid email!
+                     
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline mb-2">
+                        <label class="form-label fw-medium  required" for="DOB">Date of Birth</label>
+                        <input class="form-control" type="date" id="DOB" name="dob"  required
+                        [(ngModel)]="student.dob" required #dob="ngModel">
+                    </div>
+                    <div *ngIf="(dob.touched || studentform.submitted) && dob.hasError('required')"
+                    class="alert alert-danger" role="alert">
+                       DOB is required
+                    </div>
+                </div>
+            </div>
+        
+        
+            <div class="row">
+                <div class="col">
+                    <div class="form-outline mb-2">
+                        <label class="form-label fw-medium  required" for="Gender">Gender</label>
+                        <br>
+                        <input class="form-check-input me-2"
+                         type="radio" name="gender" id="Male" value="male"
+                        [(ngModel)]="student.gender" #gend="ngModel" required>
+                        <label class="form-check-label me-4" for="Male"> Male</label>
+
+                        <input class="form-check-input me-2"
+                         type="radio" name="gender" id="Female" value="female"
+                        [(ngModel)]="student.gender" #gend="ngModel" required>
+                        <label class="form-check-label" for="Female">Female</label>
+                    </div>
+                    <div *ngIf="(studentform.submitted) && studentform.controls['gender'].hasError('required')"
+                    class="alert alert-danger" role="alert">
+                        Gender field required
+                    </div>
+                </div>
+                <div class="col">
+        
+                        <label class="form-label fw-medium " for="sports">Choose a Favourite Sport:</label>
+        
+                        <select class="form-select" name="sport" id="sports"
+                        [(ngModel)]="student.favSport">
+                            <option value="" disabled selected>Please select your Sport</option>
+                            <option *ngFor="let option of options" [value]="option">
+                                {{ option }}
+                              </option>
+        
+                        </select>
+        
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col form-outline">
+                    
+                    <label class="form-check-label fw-medium me-2" for="Enroll">Is currently Enrolled ?</label>
+                    <input class="form-check-input" type="checkbox" name="enrolled" id="Enroll"
+                    [(ngModel)]="student.enrolled">
+                </div>
+                <div class="col" *ngIf="student.enrolled">
+                    <div class="form-outline mb-2">
+                        <label class="form-check-label fw-medium  pe-4 required" for="unit">Year Ernolled In ?</label>
+                        <input class="form-control"  type="number" name="year" id="unit" min="1" max="12"
+                        [(ngModel)]="student.year"  #year="ngModel" [required]="student.enrolled">
+                    </div>
+                    <div *ngIf="(year.touched || studentform.submitted ) && student.enrolled && year.hasError('required')"
+                    class="alert alert-danger" role="alert">
+                        Year field is required
+        
+                    </div>
+                    <div *ngIf="year.invalid && !year.pristine && year.value" class="alert alert-danger">
+                        Please enter between 1 to 12
+                    </div>
+                </div>
+            </div>
+        
+            <div class="mb-4">
+                <div class="form-outline">
+                    <label class="form-label fw-medium " for="">Write your message</label>
+                   <textarea class="form-control" rows="2" cols="40"
+                   name="message"
+                   [(ngModel)]="student.message"> </textarea>
+        
+        
+                </div>
+            </div>
+
+            <!-- <p>Is Form Valid : {{studentform.valid}}</p> -->
+        
+            <div
+            class="d-grid gap-2 col-6 mx-auto">
+                <button 
+                 type="submit" class="btn btn-primary btn-block shadow">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="border border-primary border-1 rounded p-4"
+    [hidden]="!isSubmitted">
+        <h2>Form is submitted successfully!</h2>
+        <h4>You submitted the following details: </h4>
+        <div class="container bor" *ngIf="submitStudent" >
+            <div class="row">
+                <div class="col-2">First Name:</div>
+                <div class="col-2">{{ submitStudent.firstName }}</div>
+            </div>
+            <div class="row">
+                <div class="col-2">Last Name:</div>
+                <div class="col-2">{{ submitStudent.lastName }}</div>
+            </div>
+            <div class="row">
+                <div class="col-2">Email:</div>
+                <div class="col-2">{{ submitStudent.email }}</div>
+            </div>
+            <div class="row">
+                <div class="col-2">Date of Birth:</div>
+                <div class="col-2">{{ student.dob }}</div>
+            </div>
+            <div class="row">
+                <div class="col-2">gender: </div>
+                <div class="col-2">{{ submitStudent.gender }}</div>
+            </div>
+            <div class="row" *ngIf="student.favSport">
+                <div class="col-2">Favourite Sport:</div>
+                <div class="col-2">{{ submitStudent.favSport }}</div>
+            </div>
+            <div class="row" *ngIf="student.enrolled">
+                <div class="col-2">Student Enrolled: </div>
+                <div class="col-2">{{ submitStudent.enrolled }}</div>
+            </div>
+            <div class="row" *ngIf="student.year">
+                <div class="col-2">Year:</div>
+                <div class="col-2">{{ submitStudent.year }}</div>
+            </div>
+            <div class="row" *ngIf="student.message">
+                <div class="col-2">Message:</div>
+                <div class="col-2">{{ submitStudent.message }}</div>
+            </div>
+            <div>
+                
+                <a mat-raised-button [routerLink]="['/students/', this.submitStudent._id]" target="_self">View this Student</a>
+                <a mat-raised-button routerLink="/" target="_self">Students List</a>
+            </div>
+        </div>
+    </div>
+</div>

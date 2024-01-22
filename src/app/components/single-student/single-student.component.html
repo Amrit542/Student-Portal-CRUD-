@@ -1,0 +1,154 @@
+<!-- <div *ngIf="!isDelete && student">
+    {{student | json}}
+    <br>
+    {{oldStudent | json}}
+    <br>
+    Are Students Equal {{studentsEqual}}
+    <br>
+
+</div> -->
+
+<div class="  h-75 d-flex justify-content-center w-auto " *ngIf="student && !isDelete">
+
+    <div class=" container m-4">
+        <div class=" title p-3 mb-2 d-flex justify-content-center w-auto  border border-2 rounded">
+            <h1 class="h2">Student Details</h1>
+            <p class="">Student ID: {{student._id}}</p>
+        </div>
+        <form class="container border border-2 rounded" #studentform="ngForm" (ngSubmit)="onSave(studentform)">
+            <div class="p-3 d-flex justify-content-center  editheading" *ngIf="isediting">Please Edit the fields and hit
+                save</div>
+            <div class="row m-3 ">
+                <div class="col-6  form-outline ">
+                    <label class="form-label mb-2 fw-medium  required " for="f_name">First Name</label>
+                    <input class="w-75 form-control" type="text" name="firstName" id="f_name" #f_Name="ngModel" required
+                        [(ngModel)]="student.firstName" [disabled]="!isediting" (ngModelChange)="checkDataChanged()">
+                    <div *ngIf=" f_Name.hasError('required') && isediting" class="alert alert-danger w-75" role="alert">
+                        First Name is required
+                    </div>
+                </div>
+                <div class=" col-6 form-outline ">
+                    <label class="form-label mb-2 fw-medium  required " for="l_Name">Last Name</label>
+                    <input class="w-75 form-control" type="text" name="lastName" id="l_name"
+                        [(ngModel)]="student.lastName" #l_Name="ngModel" required="" [disabled]="!isediting"
+                        (ngModelChange)="checkDataChanged()">
+                    <div *ngIf=" l_Name.hasError('required') && isediting" class="alert alert-danger w-75" role="alert">
+                        Last Name is required
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-3 ">
+                <div class="col-6  form-outline">
+                    <label class="form-label mb-2 fw-medium  required " for="eamil">Email</label>
+                    <input class="w-75 form-control" type="email" name="email" id="email" [(ngModel)]="student.email"
+                        required #email="ngModel" [disabled]="!isediting" (ngModelChange)="checkDataChanged()">
+                    <div *ngIf=" email.hasError('required') && isediting" class="alert alert-danger w-75" role="alert">
+                        Email is required
+                    </div>
+                </div>
+                <div class="col-6  form-outline">
+                    <label class="form-label mb-2 fw-medium  required " for="dob">Date of Birth</label>
+                    <input class="w-75 form-control" type="date" name="dob" id="dob" [(ngModel)]="student.dob"
+                        [disabled]="!isediting" required (ngModelChange)="checkDataChanged()">
+                    <p class="alert alert-danger w-75 mt-2" *ngIf="!student.dob">DOB cannot be empty</p>
+                </div>
+            </div>
+            <div class="row m-3">
+                <div class="col-6  form-outline">
+                    <label class="form-label mb-2 fw-medium w-100" for="gender">Gender</label>
+                    <div class="form-check">
+                        <input class="form-check-input radioborder" type="radio" name="gender" id="Male" value="male"
+                            [(ngModel)]="student.gender" [disabled]="!isediting" (ngModelChange)="checkDataChanged()">
+                        <label class="form-check-label" for="Male">Male</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input radioborder" type="radio" name="gender" id="Female"
+                            value="female" [(ngModel)]="student.gender" [disabled]="!isediting"
+                            (ngModelChange)="checkDataChanged()">
+                        <label class="form-check-label" for="Female">Female</label>
+                    </div>
+                </div>
+                <div class="col-6  form-outline">
+                    <label class="form-label mb-2 fw-medium  required " for="Sport">Favourite Sport</label>
+                    <select class="form-select w-75" name="sport" id="Sport" [(ngModel)]="student.favSport"
+                        [disabled]="!isediting" (ngModelChange)="checkDataChanged()">
+                        <option value="" disabled>Please select your favourite Sport</option>
+                        <option *ngFor="let option of options" [ngValue]="option">
+                            {{ option }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row m-3">
+                <div class="col-6  form-outline form-check p-2">
+                    <label class="form-check-label  me-2 fw-medium  required  " for="enrolled">Enrolled </label>
+                    <input class="form-input ss" type="checkbox" name="enrolled" id="enrolled"
+                        [(ngModel)]="student.enrolled" (ngModelChange)="checkDataChanged()" [disabled]="!isediting">
+                </div>
+                <div class="col-6  form-outline" *ngIf="student.enrolled">
+                    <label class="form-label mb-2 fw-medium  required " for="year">Year</label>
+                    <input class="w-75 form-control" type="number" min="1" max="12" name="year" id="year"
+                        [(ngModel)]="student.year" [disabled]="!isediting" min="1" max="12" #year="ngModel"
+                        (ngModelChange)="checkDataChanged()" [required]="student.enrolled">
+                    <div *ngIf="year.invalid && !year.pristine " class="alert alert-danger w-75 ">
+                        Please enter between 1 to 12
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-3">
+                <div class="col-6 form-outline">
+                    <label class="form-label mb-2 fw-medium " for="message">Message </label>
+                    <textarea class="form-control w-75 textresize" name="message" id="message" [value]="message"
+                        [disabled]="!isediting" [(ngModel)]="student.message"
+                        (ngModelChange)="checkDataChanged()"></textarea>
+                </div>
+            </div>
+            <div class="row m-3">
+                <div class="col-6">
+
+                </div>
+                <div class="col-4 d-flex d-flex justify-content-around " *ngIf="!isediting">
+
+                    <button class="btn btn-primary btn-lg col me-2" (click)="onEdit()">Edit</button>
+                    <button class="btn btn-danger bt-lg col" (click)="openDialog()">Delete</button>
+
+                </div>
+                <div *ngIf="isediting" class="col-4 d-flex d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-danger bt-lg col me-2"
+                        (click)="onCancel()">Cancel</button>
+                    <button type="button" class="btn btn-outline-primary bt-lg col"
+                        [disabled]="this.studentsEqual || !studentform.valid" type="submit">Save</button>
+                </div>
+
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+<mat-card *ngIf="isDelete">
+    <mat-card-header>
+        <mat-card-title>Student Delete Successfully!</mat-card-title>
+
+    </mat-card-header>
+    <mat-card-actions>
+        <a mat-stroked-button routerLink="/students">Students Data</a>
+        <a mat-stroked-button routerLink="/createStudent">Create new Student</a>
+    </mat-card-actions>
+</mat-card>
+
+
+<mat-card *ngIf="notFoundStudent">
+    <mat-card-header>
+        <mat-card-title>Student not found with id: {{parm_id}}</mat-card-title>
+        <!-- <mat-card-subtitle>Start</mat-card-subtitle> -->
+    </mat-card-header>
+    <mat-card-actions>
+        <a mat-stroked-button routerLink="/students">Students Data</a>
+        <a mat-stroked-button routerLink="/createStudent">Create new Student</a>
+    </mat-card-actions>
+</mat-card>
